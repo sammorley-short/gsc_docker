@@ -8,6 +8,7 @@ RUN apt-get install -y wget build-essential
 WORKDIR /usr/src
 RUN wget -O nauty.tar.gz http://pallini.di.uniroma1.it/nauty27r1.tar.gz \
  && tar xvzf nauty.tar.gz \
+ && rm nauty.tar.gz \
  && mv nauty27r1 nauty \
  && cd nauty \
  # N.B. -fPIC compile flag needed to avoid compiler error when installing pynauty
@@ -18,8 +19,10 @@ RUN wget -O nauty.tar.gz http://pallini.di.uniroma1.it/nauty27r1.tar.gz \
 WORKDIR /usr/src
 RUN wget -O pynauty.tar.gz https://github.com/sammorley-short/pynauty/archive/v1.0.tar.gz \
  && tar xvzf pynauty.tar.gz  \
+ && rm pynauty.tar.gz \
  && mv pynauty-1.0 pynauty \
  && cd pynauty \
- && ln -s ../nauty nauty \
+ && mv ../nauty nauty \
  && make pynauty \
- && make tests
+ && make tests \
+ && make user-ins
